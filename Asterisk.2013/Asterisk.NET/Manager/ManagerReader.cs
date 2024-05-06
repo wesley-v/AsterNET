@@ -196,10 +196,10 @@ namespace AsterNET.Manager
             var ksCounter = 0;
             while (mrSocket == null)
             {
-                if (ksCounter++ == 3) // Failed to acquire socket, retry up to 3 times(3+ seconds)
+                if (ksCounter++ == 3) // Failed to acquire socket, retry up to 3 times
                     return;
 
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 mrConnector.connect();
             }
 
