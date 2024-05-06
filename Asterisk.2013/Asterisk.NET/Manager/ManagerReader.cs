@@ -192,9 +192,16 @@ namespace AsterNET.Manager
 		/// <seealso cref="ManagerConnection.DispatchResponse(Response.ManagerResponse)" />
 		/// <seealso cref="ManagerConnection.setProtocolIdentifier(String)" />
 		internal void Run()
-		{
-			if (mrSocket == null)
-				throw new SystemException("Unable to run: socket is null.");
+        {
+            var ksCounter = 0;
+            while (mrSocket == null)
+            {
+                if (ksCounter++ == 3) // Failed to acquire socket, retry up to 3 times(3+ seconds)
+                    return;
+
+                Thread.Sleep(1000);
+                mrConnector.connect();
+            }
 
 			string line;
 
